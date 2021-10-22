@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -7,9 +8,32 @@ class Categoria(models.Model):
     estado = models.BooleanField(default=True)
     foto = models.ImageField(upload_to='categorias', blank=True, null=True)
     fecha_creacion = models.DateTimeField(auto_now=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='usuarios', blank=True, null=True)
 
     def __str__(self):
         return self.nombre
+
+    class Meta:
+        verbose_name_plural = 'categorias'
+        ordering = ['id']
+
+
+class Proveedor(models.Model):
+    tipo_prov = (
+        ('N', 'NACIONAL'),
+        ('E', 'EXTRANJERO')
+    )
+    nombre = models.CharField(max_length=50)
+    correo = models.EmailField(blank=True, null=True)
+    ruc = models.IntegerField(blank=True, null=True)
+    tipo = models.CharField(max_length=1, choices=tipo_prov)
+
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        verbose_name_plural = 'proveedores'
+        ordering = ['id']
 
 
 class Productos(models.Model):
@@ -20,6 +44,7 @@ class Productos(models.Model):
     estado = models.BooleanField(default=True)
     fecha_creacion = models.DateTimeField(blank=True, null=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='categorias')
+    proveedor = models.ManyToManyField(Proveedor)
 
     def __str__(self):
         return self.nombre
@@ -55,7 +80,6 @@ class Productos_Precio(models.Model):
     def __str__(self):
         return self.producto.nombre + ' Precio Venta:' + str(self.precioventa) + \
                ' Precio Especial:' + str(self.precioespecial)
-
 
     class Meta:
         verbose_name_plural = 'productos_precios'
