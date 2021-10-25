@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for item in prod %}
+    {% for i in item %}
+        {{ i }}
+    {% endfor %}
+    <br>
+{% endfor %}
+</body>
+</html>
