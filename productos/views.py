@@ -17,3 +17,9 @@ def detalles_productos(request, codigo):
     except Productos.DoesNotExist:
         raise Http404("Producto No Existe. Lo sentimos")
     return render(request, "productodetalle.html", context)
+
+
+def filtrar_productos(request, nombre):
+    busqueda = Productos.objects.filter(nombre__contains=nombre)
+    context = {'prod': busqueda}
+    return render(request, "productos.html", context)
