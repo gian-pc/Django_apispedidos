@@ -15,7 +15,7 @@ class Categoria(models.Model):
 
     class Meta:
         verbose_name_plural = 'categorias'
-        ordering = ['id']
+        ordering = ['nombre']
 
 
 class Proveedor(models.Model):

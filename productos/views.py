@@ -1,5 +1,9 @@
 from django.shortcuts import render
+from .models import Productos
 
 
 def index(request):
-    return render(request, "index.html")
+    # QuerySet
+    productos = Productos.objects.all()
+    context = {'prod': productos}
+    return render(request, "index.html", context)
